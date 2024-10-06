@@ -180,7 +180,11 @@ describe('API Tests', () => {
   afterAll(async () => {
     // Disconnect from MongoDB after all tests
     await mongoose.disconnect();
+    httpsServer.close(() => {
+      console.log('Server closed');
+     
   });
+});
 
   // Customer Registration Test
   it('should register a new customer', async () => {
