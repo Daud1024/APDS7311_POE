@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(helmet.frameguard({ action: 'deny' }));
 
 // Load SSL certificate
-const privateKey = fs.readFileSync('./server/server.key', 'utf8');
-const certificate = fs.readFileSync('./server/server.cert', 'utf8');
+const privateKey = fs.readFileSync('./server.key', 'utf8');
+const certificate = fs.readFileSync('./server.cert', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 // MongoDB connection
