@@ -1,12 +1,12 @@
-name: Node.js CI
+name: Run Tests
 
 on:
   push:
     branches:
-      - main  # Change to your default branch if it's not 'main'
+      - main
   pull_request:
     branches:
-      - main  # Run tests on PRs to the main branch
+      - main
 
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
 
     services:
       mongodb:
-        image: mongo:latest
+        image: mongo:5.0  
         ports:
           - 27017:27017
         env:
@@ -23,22 +23,22 @@ jobs:
         options: >-
           --health-cmd "mongo --eval 'db.adminCommand(\"ping\")'"
           --health-interval 10s
-          --health-timeout 5s
-          --health-retries 3
+          --health-timeout 30s  # Increase timeout
+          --health-retries 5
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Use the Node.js version that matches your project
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
 
       - name: Run tests
         env:
-          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'
-        run: npx jest 
+          MONGO_URI: 'mongodb://root:example@localhost:27017/?authSource=admin'
+        run: npx jest
