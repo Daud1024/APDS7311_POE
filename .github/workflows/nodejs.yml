@@ -35,17 +35,19 @@ jobs:
         with:
           node-version: '18'  
 
-      - name: Install dependencies
+      - name: Install dependencies in server
         run: |
-           cd portal
-           npm install
+          cd portal/server  # Navigate to the correct directory
+          npm install       # Install the dependencies here
 
       - name: Change permissions for Jest binary
-        run: chmod +x ./node_modules/.bin/jest
+        run: |
+          cd portal/server  # Make sure you're in the server directory
+          chmod +x ./node_modules/.bin/jest
 
       - name: Run Tests
         env:
-          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
+          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'
         run: |
-          cd portal/server
-          npm test  # Use the npm test script defined in package.json
+          cd portal/server  # Stay in the correct directory
+          npm test          # Use npm test which runs Jest
