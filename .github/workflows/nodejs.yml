@@ -37,11 +37,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd portal/server  # Change to the directory where package.json is located
           npm install
 
       - name: Run Tests
         run: |
           cd portal/server  # Ensure we are in the right directory
-          chmod +x ./node_modules/.bin/jest  # Make jest executable
-          npx jest tests.test.js
+          npx jest tests.test.js  # Use npx to run jest
