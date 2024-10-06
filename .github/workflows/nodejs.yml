@@ -33,14 +33,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Change this to 16 or later
+          node-version: '16'  
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd portal/server  # Change to the directory where package.json is located
+          npm install
 
       - name: DevSecOps
         env:
           MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
         run: |
-          cd portal/server # Change to the directory containing tests
+          cd portal/server  # Ensure we are in the right directory
           npx jest tests.test.js
