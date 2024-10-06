@@ -41,7 +41,10 @@ jobs:
            npm install
 
       - name: DevSecOps
-        env:
-          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
-        run: |
-          npx jest 
+    env:
+    MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
+    run: |
+        cd portal/server 
+        chmod +x ./node_modules/.bin/jest  # Change permissions for jest binary
+        npx jest --config jest.config.js  # Specify the config file explicitly
+
