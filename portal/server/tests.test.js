@@ -156,7 +156,7 @@ app.use((req, res, next) => {
 
 // Start the server using HTTPS
 const httpsServer = https.createServer(credentials, app);
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 8080;
 
 httpsServer.listen(PORT, () => {
   console.log(`HTTPS Server running on port ${PORT}`);
