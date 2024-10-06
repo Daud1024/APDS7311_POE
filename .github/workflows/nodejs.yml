@@ -1,4 +1,4 @@
-name: Run Tests
+name: DevSecOps
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
+      - name: DevSecOps
         env:
-          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'
-        run: npx jest
+          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
+        run: npx jest server/tests.test.js  
