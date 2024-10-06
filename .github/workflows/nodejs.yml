@@ -41,7 +41,6 @@ jobs:
           npm install
 
       - name: Run Tests
-        env:
-          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
         run: |
-          npx jest tests.test.js
+          cd portal/server  # Ensure you're in the server directory
+          npm test          # Use the npm test script defined in package.json
