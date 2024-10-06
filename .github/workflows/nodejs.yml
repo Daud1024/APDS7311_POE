@@ -37,10 +37,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd portal/server  # Change directory to server
-          npm install
+           cd portal
+           npm install
+
+      - name: Change permissions for Jest binary
+        run: chmod +x ./node_modules/.bin/jest
 
       - name: Run Tests
+        env:
+          MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
         run: |
-          cd portal/server  # Ensure you're in the server directory
-          npm test          # Use the npm test script defined in package.json
+          cd portal/server
+          npm test  # Use the npm test script defined in package.json
