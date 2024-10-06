@@ -12,17 +12,22 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]  # Use Node 20.x or higher
+        node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v3  # Update to v3
+      - uses: actions/checkout@v3  # Updated to v3
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # Update to v3
+        uses: actions/setup-node@v3  
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Change directory
+        run: cd server  # Change to the directory containing package.json
+
       - name: Install dependencies
         run: npm install
+        working-directory: server 
 
       - name: Run tests
         run: npm test
+        working-directory: server #Specified working directory
