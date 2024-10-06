@@ -38,9 +38,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-    
-
       - name: DevSecOps
         env:
           MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
-        run: npx jest portal/server/tests.test.js
+        run: |
+          cd portal/server # Change to the directory containing tests
+          npx jest tests.test.js
