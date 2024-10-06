@@ -36,7 +36,9 @@ jobs:
           node-version: '16'  # Change this to 16 or later
 
       - name: Install dependencies
-        run: npm install
+        run: |
+           cd portal
+           npm install
 
       - name: DevSecOps
         env:
