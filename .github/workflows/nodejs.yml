@@ -37,14 +37,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-           cd portal
-           npm install
+          cd portal/server  # Change directory to server
+          npm install
 
-      - name: DevSecOps
+      - name: Run Tests
         env:
           MONGO_URI: 'mongodb+srv://Daud1024:QxHlisLkh0UXc10g@usercluster.vfu00.mongodb.net/?retryWrites=true&w=majority&appName=UserCluster'  
         run: |
-          cd portal/server 
-          chmod +x ./node_modules/.bin/jest  # Change permissions for jest binary
           npx jest --config jest.config.js  # Specify the config file explicitly
-
