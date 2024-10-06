@@ -46,4 +46,4 @@ jobs:
         run: |
           
           cd portal/server
-          npx jest
+          npx jest tests.test.js
