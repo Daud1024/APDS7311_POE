@@ -1,53 +1,39 @@
 version: 2.1
 
 executors:
-  node-executor:
+  default:
     docker:
-      - image: circleci/node:14.17.5
+      - image: circleci/python:3.8 
+    working_directory: ~/project
 
 jobs:
-  install_dependencies:
-    executor: node-executor
+  build:
     steps:
       - checkout
       - run:
-          name: List Directory Contents
-          command: ls -la portal
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "portal/package.json" }}
-            - v1-dependencies-
+          name: Install Node.js
+          command: |
+            curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+
       - run:
           name: Install dependencies
-          command: npm install --prefix portal
-      - save_cache:
-          paths:
-            - portal/node_modules
-          key: v1-dependencies-{{ checksum "portal/package.json" }}
-
-  sonar_scan:
-    executor: node-executor
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "portal/package.json" }}
-      - run:
-          name: Install SonarQube Scanner
-          command: npm install --save-dev sonarqube-scanner --prefix portal
-      - run:
-          name: Run SonarQube Scan
           command: |
-            npx sonarqube-scanner \
-              -Dsonar.projectKey=Daud1024_APDS7311_POE \
-              -Dsonar.organization=daud1024 \
-              -Dsonar.sources=portal \
-              -Dsonar.host.url=${SONAR_HOST_URL} \
-              -Dsonar.login=${SONAR_TOKEN}
+            npm install
+
+      - run:
+          name: Run SonarScanner
+          command: |
+            npx sonar-scanner -Dsonar.projectKey=Daud1024_APDS7311_POE \
+            -Dsonar.organization=daud1024 \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.token=$SONAR_TOKEN \
+            -Dsonar.nodejs.executable=$(which node) \
+            -Dsonar.login=${SONAR_TOKEN} # This line is kept for backward compatibility, but note it's deprecated
 
 workflows:
   version: 2
-  main_workflow:
+  build_and_scan:
     jobs:
-      - install_dependencies
-      - sonar_scan
+      - build
