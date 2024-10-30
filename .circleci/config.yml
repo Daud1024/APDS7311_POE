@@ -42,8 +42,7 @@ jobs:
               -Dsonar.projectKey=Daud1024_APDS7311_POE \
               -Dsonar.organization=daud1024 \
               -Dsonar.sources=portal \
-              -Dsonar.host.url=${SONAR_HOST_URL} \
-              -Dsonar.login=${SONAR_TOKEN}
+              -Dsonar.host.url=${SONAR_HOST_URL} 
 
 workflows:
   version: 2
