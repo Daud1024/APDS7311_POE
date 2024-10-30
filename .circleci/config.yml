@@ -12,18 +12,18 @@ jobs:
       - checkout
       - run:
           name: List Directory Contents
-          command: ls -la
+          command: ls -la portal
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "portal/package.json" }}
             - v1-dependencies-
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm install --prefix portal
       - save_cache:
           paths:
-            - ./node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - portal/node_modules
+          key: v1-dependencies-{{ checksum "portal/package.json" }}
 
   sonar_scan:
     executor: node-executor
@@ -31,16 +31,16 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "portal/package.json" }}
       - run:
           name: Install SonarQube Scanner
-          command: npm install -g sonarqube-scanner
+          command: npm install --save-dev sonarqube-scanner --prefix portal
       - run:
           name: Run SonarQube Scan
           command: |
-            sonar-scanner \
+            npx sonarqube-scanner \
               -Dsonar.projectKey=Daud1024_APDS7311_POE \
-              -Dsonar.sources=. \
+              -Dsonar.sources=portal \
               -Dsonar.host.url=${SONAR_HOST_URL} \
               -Dsonar.login=${SONAR_TOKEN}
 
