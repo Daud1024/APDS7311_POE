@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/node:16  # Use a Node.js image suitable for your React app
+      - image: circleci/node:16  
     working_directory: ~/project
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.nodejs.executable=$(which node) \
-            -Dsonar.login=${SONAR_TOKEN}  # Note: This is kept for backward compatibility, but it is deprecated
+            -Dsonar.login=${SONAR_TOKEN} 
 
 workflows:
   version: 2
