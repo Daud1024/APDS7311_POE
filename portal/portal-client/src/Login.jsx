@@ -9,9 +9,9 @@ function LoginForm() {
   const [accountNumber, setAccountNumber] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { loginUser } = useAuth(); // Use loginUser from context
+  const { loginUser } = useAuth();
 
-
+  // Regex for validation
 //Reference: TutorialsPoint
 //Article Name: RegEx in ReactJS
 //Link: https://www.tutorialspoint.com/regex-in-reactjs
@@ -22,9 +22,6 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Username:', email);
-    console.log('Password:', password);
-    console.log('Account Number', accountNumber);
 
     // Email validation
     if (!emailRegex.test(email)) {
@@ -33,7 +30,7 @@ function LoginForm() {
     }
 
     if (!accountNumberRegex.test(accountNumber)) {
-      setError('Invalid account number');
+      setError('Invalid account number.');
       return;
     }
 
@@ -48,14 +45,15 @@ function LoginForm() {
       const response = await axios.post('http://localhost:5000/api/cust/login', { email, accountNumber, password });
       if (response.status === 200) {
         alert('Login successful!');
-        
-        // Save the user data in the context (assuming you get the user info from response)
-        loginUser({ email, accountNumber }); 
-        
-        navigate('/payment_page'); // Navigate to the payment page
+        loginUser({ email, accountNumber });
+        navigate('/payment_page');
       }
     } catch (err) {
-      setError('Invalid email, account number, or password.');
+      if (err.response && err.response.status === 401) {
+        setError('Invalid email, account number, or password.');
+      } else {
+        setError('An error occurred. Please try again later.');
+      }
       console.error(err);
     }
   };
@@ -69,9 +67,12 @@ function LoginForm() {
           <input
             type="text"
             id="email"
-            placeholder='example@email.com'
+            placeholder="example@email.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (error) setError(''); // Clear error on change
+            }}
             required
           />
         </div>
@@ -80,9 +81,12 @@ function LoginForm() {
           <input
             type="text"
             id="accountNumber"
-            placeholder='Enter account number'
+            placeholder="Enter account number"
             value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            onChange={(e) => {
+              setAccountNumber(e.target.value);
+              if (error) setError('');
+            }}
             required
           />
         </div>
@@ -91,19 +95,22 @@ function LoginForm() {
           <input
             type="password"
             id="password"
-            placeholder='Password'
+            placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (error) setError('');
+            }}
             required
           />
-          </div>
+        </div>
         <button type="submit">Login</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        </form>
-        <div className="register-link">
+      </form>
+      <div className="register-link">
+        <p>Are you an employee? <Link to="/employee_login">Login here</Link>.</p>
         <p>Don't have an account? <Link to="/user_register">Register here</Link>.</p>
       </div>
-        <Link className='Link' to={'/employee_login'}></Link>
     </div>
   );
 }
