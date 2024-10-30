@@ -3,24 +3,33 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/python:3.8 
+      - image: circleci/node:16  # Use a Node.js image suitable for your React app
     working_directory: ~/project
 
 jobs:
   build:
     steps:
       - checkout
-      - run:
-          name: Install Node.js
-          command: |
-            curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-
+      
+      # Install dependencies
       - run:
           name: Install dependencies
           command: |
             npm install
 
+      # Run tests (optional but recommended)
+      - run:
+          name: Run tests
+          command: |
+            npm test -- --watchAll=false
+
+      # Build the React app
+      - run:
+          name: Build React app
+          command: |
+            npm run build
+
+      # Run SonarScanner
       - run:
           name: Run SonarScanner
           command: |
@@ -30,7 +39,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.nodejs.executable=$(which node) \
-            -Dsonar.login=${SONAR_TOKEN} # This line is kept for backward compatibility, but note it's deprecated
+            -Dsonar.login=${SONAR_TOKEN}  # Note: This is kept for backward compatibility, but it is deprecated
 
 workflows:
   version: 2
