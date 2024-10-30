@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node-executor:
     docker:
-      - image: circleci/node:18 
+      - image: node:18  # Using the official Node.js image
 
 jobs:
   install_dependencies:
