@@ -3,13 +3,16 @@ version: 2.1
 executors:
   node-executor:
     docker:
-      - image: circleci/node:14.17.5  # Choose the version based on your needs
+      - image: circleci/node:18 
 
 jobs:
   install_dependencies:
     executor: node-executor
     steps:
       - checkout
+      - run:
+          name: List Directory Contents
+          command: ls -la
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -31,11 +34,11 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Install SonarQube Scanner
-          command: npm install -g sonarqube-scanner
+          command: npm install --save-dev sonarqube-scanner
       - run:
           name: Run SonarQube Scan
           command: |
-            sonar-scanner \
+            npx sonarqube-scanner \
               -Dsonar.projectKey=Daud1024_APDS7311_POE \
               -Dsonar.sources=. \
               -Dsonar.host.url=${SONAR_HOST_URL} \
@@ -47,4 +50,3 @@ workflows:
     jobs:
       - install_dependencies
       - sonar_scan
-
