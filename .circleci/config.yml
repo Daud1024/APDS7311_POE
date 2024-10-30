@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node-executor:
     docker:
-      - image: circleci/node:17
+      - image: circleci/node:18
 
 jobs:
   install_dependencies:
@@ -40,6 +40,7 @@ jobs:
           command: |
             npx sonarqube-scanner \
               -Dsonar.projectKey=Daud1024_APDS7311_POE \
+              -Dsonar.organization=your_organization_key \
               -Dsonar.sources=portal \
               -Dsonar.host.url=${SONAR_HOST_URL} \
               -Dsonar.login=${SONAR_TOKEN}
