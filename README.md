@@ -10,8 +10,9 @@
 
 The **Static Login** details are as follows:
 
-Email: 'employeemaster@gmail.com'
-Password: 'Master786Employee531!'
+Username: employeemaster@gmail.com
+Password: Master786Employee531!
+
 
 
 ## Customer Instructions:
