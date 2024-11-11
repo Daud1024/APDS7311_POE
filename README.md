@@ -1,6 +1,6 @@
 # Employee and Customer portal 
 
-## Instructional Video: 
+## Instructional Video: https://youtu.be/UVQ1dNwZEP0
 
 ## Employee Instructions:
 1. navigate to the "server" folder, open command prompt, enter 'npm run dev'
